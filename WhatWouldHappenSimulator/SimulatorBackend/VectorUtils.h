@@ -10,3 +10,22 @@ inline PhysicsQuat makeQuatXYZIntrinsic(PhysicsFloat x, PhysicsFloat y, PhysicsF
 
 	return rotQuat;
 }
+
+inline PhysicsQuat axialVectorToQuat(const PhysicsVec3D& vec)
+{
+	return PhysicsQuat(vec.length(), vec);
+}
+
+inline PhysicsFloat scalarProjection(const PhysicsVec3D& vec, const PhysicsVec3D& projBasis)
+{
+	return (projBasis * vec) / projBasis.length();
+}
+
+// inline PhysicsQuat scaleQuatAngle(const PhysicsQuat& srcQuat, PhysicsFloat scale)
+// {
+// 	PhysicsFloat srcAngle;
+// 	PhysicsVec3D srcAxis;
+// 	
+// 	srcQuat.getRotate(srcAngle, srcAxis);
+// 	return PhysicsQuat()
+// }
