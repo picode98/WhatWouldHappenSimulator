@@ -311,4 +311,35 @@ public:
 
 		return totalVolume;
 	}
+
+	PhysicsVec3D getCentroid()
+	{
+		// See http://wwwf.imperial.ac.uk/~rn/centroid.pdf for the mathematical basis
+		// of this algorithm.
+		
+		this->computeFaceNormals();
+		PhysicsFloat volume = this->getVolume();
+		PhysicsVec3D totalCentroid = PhysicsVec3D();
+
+		
+		for (size_t faceIndex = 0; faceIndex < this->geomFaces.size(); faceIndex++)
+		{
+			FaceIndices faceIndices = this->geomFaces[faceIndex];
+			PhysicsVec3D edge1Sum = (this->geomPoints[faceIndices[0]] + this->geomPoints[faceIndices[1]]),
+				edge2Sum = (this->geomPoints[faceIndices[1]] + this->geomPoints[faceIndices[2]]),
+				edge3Sum = (this->geomPoints[faceIndices[2]] + this->geomPoints[faceIndices[0]]);
+			for (size_t thisDim = 0; thisDim < PhysicsVec3D::num_components; thisDim++)
+			{
+				totalCentroid[thisDim] += this->faceNormals[faceIndex][thisDim] * (
+					(edge1Sum[thisDim] * edge1Sum[thisDim]) +
+					(edge2Sum[thisDim] * edge2Sum[thisDim]) +
+					(edge3Sum[thisDim] * edge3Sum[thisDim])
+				);
+			}
+		}
+
+		totalCentroid *= ((1.0 / 24.0) * (0.5 / this->getVolume()));
+
+		return totalCentroid;
+	}
 };

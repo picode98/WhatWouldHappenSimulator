@@ -40,7 +40,11 @@ void test()
 		std::cout << thisPoint.x() << ", " << thisPoint.y() << ", " << thisPoint.z() << " | ";
 	}
 	std::cout << std::endl
-			<< "Volume: " << testGeometry.getVolume() << std::endl;
+		<< "Volume: " << testGeometry.getVolume() << std::endl;
+
+	auto centroid = testGeometry.getCentroid();
+	
+	std::cout << "Centroid: " << centroid.x() << ", " << centroid.y() << ", " << centroid.z() << std::endl;
 
 	PhysicsObject testObj(testGeometry, PhysicsVec3D(0.0, 0.0, 10.0), 1.0, PhysicsQuat(),
 		PhysicsVec3D(), PhysicsVec3D(0.0, 0.0, 1.0) * (2 * 3.1415926535));
